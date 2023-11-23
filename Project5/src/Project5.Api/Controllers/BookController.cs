@@ -34,7 +34,17 @@ namespace Project5.Api.Controllers
         public async Task<ActionResult> UpdateBookAsync(int id, [FromBody] UpdateBookCommand command)
         {
             command.Id = id;
-            return (await _mediator.Send(command)).ToActionResult();
+            var result = await _mediator.Send(command);
+            if (result == null)
+            {
+                // The update was successful, and no additional data needs to be returned
+                return NoContent(); // HTTP 204 No Content
+            }
+            else
+            {
+                // Optionally, you can handle other result types or return additional data
+                return result.ToActionResult();
+            }
         }
 
         [HttpDelete("{id}")]

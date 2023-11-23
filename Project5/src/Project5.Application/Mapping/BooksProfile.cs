@@ -1,6 +1,7 @@
 using AutoMapper;
 using Project5.Application.Endpoints.Books;
 using Project5.Application.Endpoints.Books.Commands;
+using Project5.Application.Endpoints.Books.Updates;
 using Project5.Domain.Entities;
 
 namespace Project5.Application.Mapping
@@ -12,7 +13,9 @@ namespace Project5.Application.Mapping
             CreateMap<Book, BookViewModel>()
                 .ReverseMap();
 
-            CreateMap<Book, Book>();
+            //CreateMap<Book, Book>();
+            //CreateMap<Object, Book>();
+            CreateMap<UpdateBookCommand, Book>();
 
 
             CreateMap<AddBookCommand, Book>()

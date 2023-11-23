@@ -12,5 +12,10 @@ namespace Project5.Domain.Entities
         public string Title { get; set; }
         public string Author { get; set; }
         public int Year { get; set; }
+
+        public Book()
+        {
+            // Set default values if needed
+        }
     }
 }

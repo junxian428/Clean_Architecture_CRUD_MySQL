@@ -8,6 +8,7 @@ using MediatR;
 using Project5.Application.Interfaces.Persistence.DataServices.Books.Updates;
 using Project5.Application.Models;
 using Project5.Domain.Entities;
+using Newtonsoft.Json;
 
 namespace Project5.Application.Endpoints.Books.Updates
 {
@@ -24,9 +25,29 @@ namespace Project5.Application.Endpoints.Books.Updates
 
         public async Task<EndpointResult<BookViewModel>> Handle(UpdateBookCommand request, CancellationToken cancellationToken = default)
         {
-            var updatedBook = await _updateBookDataService.ExecuteAsync(_mapper.Map<Book>(request));
-            return new EndpointResult<BookViewModel>(_mapper.Map<BookViewModel>(updatedBook));
+            Console.WriteLine($"Original Request: {JsonConvert.SerializeObject(request)}");
+            var bookToUpdate = _mapper.Map<Book>(request);
+            Console.WriteLine($"Mapped Book: {JsonConvert.SerializeObject(bookToUpdate)}");
+            var updatedBook = await _updateBookDataService.ExecuteAsync(bookToUpdate);
+
+
+            //var updatedBook = await _updateBookDataService.ExecuteAsync(_mapper.Map<Book>(request));
+
+            if (updatedBook != null)
+            {
+                Console.WriteLine("Book updated successfully.");
+
+                return new EndpointResult<BookViewModel>(_mapper.Map<BookViewModel>(updatedBook));
+            }
+            else
+            {
+                Console.WriteLine("Update did not result in changes.");
+
+                // Optionally, log the failure or perform other error handling
+                return null; // or a specific error response indicating the failure
+            }
         }
+
     }
 
 }
